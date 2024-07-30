@@ -1,4 +1,4 @@
-from src.world.enums.type import Type
+from src.world.data.enums.type import Type
 from termcolor import colored
 
 SPRITES = {
