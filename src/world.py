@@ -12,6 +12,15 @@ class World:
         self.tilemap = self._init_tilemap()
         self._init_neighbours()
 
+    @property
+    def generating(self) -> bool:
+        for y in range(self.rows):
+            for x in range(self.cols):
+                if self.tilemap[y][x].entropy > 0:
+                    return True
+        return False
+
+
     def _init_tilemap(self) -> List[List[Tile]]:
         tilemap: List[List[Tile]] = []
         for y in range(self.rows):    
@@ -45,7 +54,7 @@ class World:
                         min_entropy = entropy
         return min_entropy
     
-    def get_min_entropy_tiles(self) -> List[Tile]:
+    def _get_min_entropy_tiles(self) -> List[Tile]:
         min_entropy = self._get_min_entropy()
         min_entropy_tiles = []
 
@@ -61,7 +70,7 @@ class World:
         return min_entropy_tiles
     
     def wave_function_collapse(self):
-        min_entropy_tiles = self.get_min_entropy_tiles()
+        min_entropy_tiles = self._get_min_entropy_tiles()
 
         if min_entropy_tiles == []:
             return 0
@@ -85,24 +94,6 @@ class World:
                     if reduced == True:
                         stack.append(neighbour)    # When possibilities were reduced need to propagate further
         return 1
-
-    def print_entropies(self) -> None:
-        map = ""
-        for y in range(self.rows):
-            row = ""
-            for x in range(self.cols):
-                row += str(self.tilemap[y][x].entropy) + " "
-            map += row + '\n'
-        print(map)
-
-    def print_possibilities(self) -> None:
-        map = ""
-        for y in range(self.rows):
-            row = ""
-            for x in range(self.cols):
-                row += str(len(self.tilemap[y][x].possibilities)) + " "
-            map += row + '\n'
-        print(map)
     
     def __repr__(self) -> str:
         map = ""
