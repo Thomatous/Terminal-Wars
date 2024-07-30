@@ -1,9 +1,15 @@
 from __future__ import annotations
 from random import choices
 from typing import Dict, List
+from src.world.data.enums.type import Type
 from src.world.data.enums.direction import Direction
 from src.world.data.rules import RULES
 from src.world.data.weights import WEIGHTS
+from src.world.data.movement_cost import MOVEMENT_COST
+from srx.world.data.points import POINTS
+
+class TileException(Exception):
+    pass
 
 class Tile():
     def __init__(self, x: int, y: int) -> None:
@@ -17,6 +23,28 @@ class Tile():
     def directions(self) -> List[Direction]:
         return list(self.neighbours.keys())
     
+    @property
+    def collapsed(self) -> bool:
+        return self.entropy == 0
+    
+    @property
+    def type(self) -> Type:
+        if not self.collapsed:
+            raise TileException("Can't extract type from none reduced tile.")
+        return self.possibilities[0]
+
+    @property
+    def points(self):
+        if not self.collapsed:
+            raise TileException("Can't extract points from none reduced tile.")
+        return POINTS[self.type]
+    
+    @property
+    def movement_cost(self):
+        if not self.collapsed:
+            raise TileException("Can't extract movement cost from none reduced tile.")
+        return MOVEMENT_COST[self.type]
+
     def collapse(self):
         weights = [WEIGHTS[possibility] for possibility in self.possibilities]
         self.possibilities = choices(self.possibilities, weights=weights, k=1)
@@ -47,3 +75,4 @@ class Tile():
             self.entropy = len(self.possibilities)
 
         return reduced
+    
