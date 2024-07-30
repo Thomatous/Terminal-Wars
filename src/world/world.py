@@ -1,9 +1,9 @@
 from random import choice
 from typing import List
-from src.tile import Tile
-from src.enums.direction import Direction
-from src.rules import RULES
-from src.sprites import SPRITES
+from src.world.tile import Tile
+from src.world.enums.direction import Direction
+from src.world.rules import RULES
+from src.world.sprites import SPRITES
 
 class World:
     def __init__(self, cols: int, rows: int) -> None:

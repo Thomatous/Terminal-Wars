@@ -1,5 +1,5 @@
-from src.enums.edge import Edge
-from src.enums.type import Type
+from src.world.enums.edge import Edge
+from src.world.enums.type import Type
 
 RULES = {
     Type.TILE_GRASS: [Edge.GRASS, Edge.GRASS, Edge.GRASS, Edge.GRASS],

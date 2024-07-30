@@ -1,9 +1,9 @@
 from __future__ import annotations
 from random import choices
 from typing import Dict, List
-from src.enums.direction import Direction
-from src.rules import RULES
-from src.weights import WEIGHTS
+from src.world.enums.direction import Direction
+from src.world.rules import RULES
+from src.world.weights import WEIGHTS
 
 class Tile():
     def __init__(self, x: int, y: int) -> None:
