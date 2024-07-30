@@ -3,6 +3,7 @@ from typing import List
 from src.tile import Tile
 from src.enums.direction import Direction
 from src.rules import RULES
+from src.sprites import SPRITES
 
 class World:
     def __init__(self, cols: int, rows: int) -> None:
@@ -85,11 +86,33 @@ class World:
                         stack.append(neighbour)    # When possibilities were reduced need to propagate further
         return 1
 
-    def __repr__(self) -> str:
+    def print_entropies(self) -> None:
         map = ""
         for y in range(self.rows):
             row = ""
             for x in range(self.cols):
                 row += str(self.tilemap[y][x].entropy) + " "
+            map += row + '\n'
+        print(map)
+
+    def print_possibilities(self) -> None:
+        map = ""
+        for y in range(self.rows):
+            row = ""
+            for x in range(self.cols):
+                row += str(len(self.tilemap[y][x].possibilities)) + " "
+            map += row + '\n'
+        print(map)
+    
+    def __repr__(self) -> str:
+        map = ""
+        for y in range(self.rows):
+            row = ""
+            for x in range(self.cols):
+                if self.tilemap[y][x].entropy == 0:
+                    row += SPRITES[self.tilemap[y][x].possibilities[0]]
+                else:
+                    row += f" {self.tilemap[y][x].entropy}"
+                    
             map += row + '\n'
         return map
