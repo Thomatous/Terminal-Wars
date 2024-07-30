@@ -26,7 +26,7 @@ class Tile():
     @property
     def collapsed(self) -> bool:
         return self.entropy == 0
-    
+
     @property
     def type(self) -> Type:
         if not self.collapsed:
