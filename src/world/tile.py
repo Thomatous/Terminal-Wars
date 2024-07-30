@@ -6,7 +6,7 @@ from src.world.data.enums.direction import Direction
 from src.world.data.rules import RULES
 from src.world.data.weights import WEIGHTS
 from src.world.data.movement_cost import MOVEMENT_COST
-from srx.world.data.points import POINTS
+from src.world.data.points import POINTS
 
 class TileException(Exception):
     pass
