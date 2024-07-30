@@ -2,7 +2,7 @@ from src.enums.type import Type
 
 WEIGHTS = {
     Type.TILE_GRASS    : 16,
-    Type.TILE_WATER    : 4,
+    Type.TILE_WATER    : 32,
     Type.TILE_FOREST   : 5,
     Type.TILE_COASTN   : 5,
     Type.TILE_COASTE   : 5,
