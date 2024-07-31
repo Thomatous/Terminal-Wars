@@ -1,0 +1,2 @@
+class Mitosis(Exception):
+    pass

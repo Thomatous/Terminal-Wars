@@ -1,42 +1,53 @@
 import os
+from copy import deepcopy
 from typing import List, Tuple
 from src.world.tile import Tile
 from src.world.world import World
 from src.world.spritemap import Spritemap
 from src.world.data.sprites import SPRITES
-from src.player.base_player import BasePlayer
+from src.player.base_player import Player
+from src.player.mitosis import Mitosis
 
 class Simulator():
     world: World
-    players: List[BasePlayer]
+    players: List[Player]
     spritemap: Spritemap
 
-    def __init__(self, world: World, players: List[BasePlayer]) -> None:
+    def __init__(self, world: World, players: List[Player]) -> None:
         self.world = world
         self.players = players
         self.spritemap = Spritemap(world.cols, world.rows)
     
-    def _find_players_by_position(self, y: int, x: int) -> List[BasePlayer]:
+    def _find_players_by_position(self, y: int, x: int) -> List[Player]:
         players_in_position = []
         for p in self.players:
             if p.position == (y, x):
                 players_in_position.append(p)
         return players_in_position
+    
+    def _battle_on_tile(self, players_on_tile: List[Player]) -> bool:
+        if len(players_on_tile) < 2:
+            return False
+        teams = [p.sprite for p in players_on_tile]
+        if len(set(teams) > 1):
+            return False
+        return True
 
     def _print_state(self) -> None:
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.world.rows):
             for x in range(self.world.cols):
                 players_on_tile = self._find_players_by_position(y, x)
-                if len(players_on_tile) == 1:
+                if len(players_on_tile) >= 1:
                     self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
-                elif len(players_on_tile) > 1:
+                elif self._battle_on_tile(players_on_tile):
                     self.spritemap.add_sprite(y, x, "⚔⚔")
                 elif self.world.tilemap[y][x].entropy == 0:
                     self.spritemap.add_sprite(y, x, SPRITES[self.world.tilemap[y][x].possibilities[0]])
                 else:
                     self.spritemap.add_sprite(y, x, f" {self.world.tilemap[y][x].entropy}")
         print(self.spritemap)
+        print(f"Players: {len(self.players)}")
 
     def _update_alive_players(self):
         alive_playes = []
@@ -58,6 +69,11 @@ class Simulator():
             available_movement_tiles.append(t)
         available_movement_tiles.append(self.world.tilemap[y][x])
         return available_movement_tiles
+    
+    def _duplicate_players(self, players: List[Player]) -> None:
+        for p in players:
+            new_player = deepcopy(p)
+            self.players.append(new_player)
 
     def simulate(self) -> None:
         self._print_state()
@@ -70,10 +86,15 @@ class Simulator():
         input("Press Enter to continue...")
         
         while True:
+            mitosized_players = []
             for p in self.players:
                 p.move(self._get_available_movement_tiles(p.y, p.x))
-                p.gain_experience(self.world.tilemap[p.y][p.x].points)
+                try:
+                    p.gain_experience(self.world.tilemap[p.y][p.x].points)
+                except Mitosis:
+                    mitosized_players.append(p)    
                 p.damage(1)
+            self._duplicate_players(mitosized_players)
             self._update_alive_players()
             self._battle()
             self._update_alive_players()

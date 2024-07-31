@@ -4,8 +4,9 @@ from abc import abstractmethod
 from src.world.world import World
 from src.world.tile import Tile
 from src.player.enum.evolution import Evolution
+from src.player.mitosis import Mitosis
 
-class BasePlayer():
+class Player():
     name: str
     attack: int
     health: int
@@ -78,14 +79,20 @@ class BasePlayer():
             self.attack += 15
         elif evolution == Evolution.HEALTH:
             self.health += 10
-        elif evolution == evolution.MOVEMENT:
+        elif evolution == Evolution.MOVEMENT:
             self.movement += 1
+        elif evolution == Evolution.MITOSIS:
+            self.attack = self.attack // 2
+            self.health = self.health // 2
+            self.movement = self.movement // 2
+            raise Mitosis
     
     def _level_up(self) -> NameError:
         self.level += 1
         a, h, m = self._get_modified_stats()
         evolution = self.evolve(a, h, m, self.level)
         self._apply_evolution(evolution)
+
 
     def gain_experience(self, experience: int) -> None:
         self.experience += experience
