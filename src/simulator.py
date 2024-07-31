@@ -15,12 +15,22 @@ class Simulator():
         self.players = players
         self.spritemap = Spritemap(world.cols, world.rows)
     
+    def _find_players_by_position(self, y: int, x: int) -> List[BasePlayer]:
+        players_in_position = []
+        for p in self.players:
+            if p.position == (y, x):
+                players_in_position.append(p)
+        return players_in_position
+
     def _print_state(self) -> None:
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.world.rows):
             for x in range(self.world.cols):
-                if any(p.position == (y, x) for p in self.players):
-                    self.spritemap.add_sprite(y, x, "PP")
+                players_on_tile = self._find_players_by_position(y, x)
+                if len(players_on_tile) == 1:
+                    self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
+                elif len(players_on_tile) > 1:
+                    self.spritemap.add_sprite(y, x, "⚔⚔")
                 elif self.world.tilemap[y][x].entropy == 0:
                     self.spritemap.add_sprite(y, x, SPRITES[self.world.tilemap[y][x].possibilities[0]])
                 else:
@@ -33,6 +43,12 @@ class Simulator():
             if p.health > 0:
                 alive_playes.append(p)
         self.players = alive_playes
+    
+    # def _battle(self) -> None:
+    #     for p1 in self.players:
+    #         for p2 in self.players:
+    #         if p.health > 0:
+    #             battling_playes.append(p)
 
     def simulate(self) -> None:
         self._print_state()
