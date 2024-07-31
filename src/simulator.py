@@ -44,11 +44,12 @@ class Simulator():
                 alive_playes.append(p)
         self.players = alive_playes
     
-    # def _battle(self) -> None:
-    #     for p1 in self.players:
-    #         for p2 in self.players:
-    #         if p.health > 0:
-    #             battling_playes.append(p)
+    def _battle(self) -> None:
+        for p1 in self.players:
+            for p2 in self.players:
+                if p1.sprite != p2.sprite and p1.position == p2.position:
+                    p1.damage(p2.attack)
+                    p2.damage(p1.attack)
 
     def simulate(self) -> None:
         self._print_state()
@@ -64,6 +65,7 @@ class Simulator():
             for p in self.players:
                 p.move(self.world.tilemap[p.y][p.x].neighbours.values())
                 p.damage(1)
+            self._battle()
             self._update_alive_players()
             self._print_state()
             input("Press Enter to continue...")
