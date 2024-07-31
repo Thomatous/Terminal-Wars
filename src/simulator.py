@@ -1,3 +1,4 @@
+import os
 from typing import List, Tuple
 from src.world.world import World
 from src.world.data.sprites import SPRITES
@@ -29,6 +30,9 @@ class Simulator():
         for p in self.players:
             p.spawn(self.world)
         while True:
+            for p in self.players:
+                p.move(self.world.tilemap[p.y][p.x].neighbours.values())
+            os.system('cls' if os.name == 'nt' else 'clear')
             self._print_state()
             input("Press Enter to continue...")
 

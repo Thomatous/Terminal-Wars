@@ -1,7 +1,9 @@
-from typing import Tuple
-from random import randint
+from typing import Tuple, List
+from random import randint, shuffle
+from copy import deepcopy
 from abc import abstractmethod
 from src.world.world import World
+from src.world.tile import Tile
 
 class BasePlayer():
     attack: int
@@ -25,3 +27,14 @@ class BasePlayer():
 
     def damage(self, damage: int) -> None:
         self.health -= damage
+
+    def move(self, tiles: List[Tile]) -> None:
+        moveable_tiles = []
+        for t in tiles:
+            if t.movement_cost <= self.movement:
+                moveable_tiles.append(t)
+        shuffle(moveable_tiles)
+
+        if len(moveable_tiles) > 0:
+            self.y = moveable_tiles[0].y
+            self.x = moveable_tiles[0].x
