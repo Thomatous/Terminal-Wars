@@ -16,6 +16,8 @@ class BasePlayer():
         self.health = health
         self.movement = movement
         self.sprite = sprite
+        self.y = None
+        self.x = None
     
     @property
     def position(self) -> Tuple[int, int]:

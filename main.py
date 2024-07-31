@@ -1,4 +1,3 @@
-import os
 from termcolor import colored
 from src.world.world import World
 from src.simulator import Simulator
@@ -9,15 +8,11 @@ if __name__ == "__main__":
 
     while world.generating:
         world.wave_function_collapse()
-        print(world)
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-    print(world)
     print("Generated world!")
 
     simulator = Simulator(world,
-                          [BasePlayer(health=10, sprite=colored("AA", "red")),
-                           BasePlayer(health=13, sprite=colored("GG", "cyan")),
-                           BasePlayer(health=15, sprite=colored("CC", "magenta"))])
+                          [BasePlayer(health=100, sprite=colored("AA", "red")),
+                           BasePlayer(health=130, sprite=colored("GG", "cyan")),
+                           BasePlayer(health=150, sprite=colored("CC", "magenta"))])
     simulator.simulate()
 

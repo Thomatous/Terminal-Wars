@@ -94,16 +94,3 @@ class World:
                     if reduced == True:
                         stack.append(neighbour)    # When possibilities were reduced need to propagate further
         return 1
-    
-    def __repr__(self) -> str:
-        map = ""
-        for y in range(self.rows):
-            row = ""
-            for x in range(self.cols):
-                if self.tilemap[y][x].entropy == 0:
-                    row += SPRITES[self.tilemap[y][x].possibilities[0]]
-                else:
-                    row += f" {self.tilemap[y][x].entropy}"
-                    
-            map += row + '\n'
-        return map
