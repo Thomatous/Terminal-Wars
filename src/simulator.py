@@ -95,7 +95,7 @@ class Simulator():
                     p.gain_experience(self.world.tilemap[p.y][p.x].points)
                 except Mitosis:
                     mitosized_players.append(p)    
-                p.damage(1)
+                # p.damage(1)
             self._duplicate_players(mitosized_players)
             self._update_alive_players()
             self._print_state()
