@@ -1,7 +1,7 @@
 from termcolor import colored
 from src.world.world import World
 from src.simulator import Simulator
-from src.player.base_player import BasePlayer
+from src.player.random_player import RandomPlayer
 
 if __name__ == "__main__":
     world = World(10, 10)
@@ -11,8 +11,8 @@ if __name__ == "__main__":
     print("Generated world!")
 
     simulator = Simulator(world,
-                          [BasePlayer(health=100, sprite=colored("AA", "red")),
-                           BasePlayer(health=130, sprite=colored("GG", "cyan")),
-                           BasePlayer(health=150, sprite=colored("CC", "magenta"))])
+                          [RandomPlayer(health=100, sprite=colored("AA", "red")),
+                           RandomPlayer(health=130, sprite=colored("GG", "cyan")),
+                           RandomPlayer(health=150, sprite=colored("CC", "magenta"))])
     simulator.simulate()
 
