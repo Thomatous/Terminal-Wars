@@ -98,5 +98,5 @@ class Player():
         self.experience += experience
         if self.experience >= self.level_threshold:
             self._level_up()
-            self._increase_level_threshold(1.3)
+            self._increase_level_threshold(1)
             self.experience = self.experience - self.level_threshold

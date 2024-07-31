@@ -24,12 +24,12 @@ class Simulator():
             if p.position == (y, x):
                 players_in_position.append(p)
         return players_in_position
-    
+
     def _battle_on_tile(self, players_on_tile: List[Player]) -> bool:
         if len(players_on_tile) < 2:
             return False
         teams = [p.sprite for p in players_on_tile]
-        if len(set(teams) > 1):
+        if len(set(teams)) == 1:
             return False
         return True
 
@@ -38,10 +38,10 @@ class Simulator():
         for y in range(self.world.rows):
             for x in range(self.world.cols):
                 players_on_tile = self._find_players_by_position(y, x)
-                if len(players_on_tile) >= 1:
-                    self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
-                elif self._battle_on_tile(players_on_tile):
+                if self._battle_on_tile(players_on_tile):
                     self.spritemap.add_sprite(y, x, "⚔⚔")
+                elif len(players_on_tile) >= 1:
+                    self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
                 elif self.world.tilemap[y][x].entropy == 0:
                     self.spritemap.add_sprite(y, x, SPRITES[self.world.tilemap[y][x].possibilities[0]])
                 else:
@@ -73,6 +73,8 @@ class Simulator():
     def _duplicate_players(self, players: List[Player]) -> None:
         for p in players:
             new_player = deepcopy(p)
+            new_player.level = 1
+            new_player.experience = 0
             self.players.append(new_player)
 
     def simulate(self) -> None:
@@ -96,8 +98,11 @@ class Simulator():
                 p.damage(1)
             self._duplicate_players(mitosized_players)
             self._update_alive_players()
+            self._print_state()
+            command = input("Press Enter to continue...")
+
             self._battle()
             self._update_alive_players()
             self._print_state()
-            input("Press Enter to continue...")
+            command = input("Press Enter to continue...")
 
