@@ -4,7 +4,7 @@ from src.simulator import Simulator
 from src.player.base_player import BasePlayer
 
 if __name__ == "__main__":
-    world = World(20, 20)
+    world = World(10, 10)
 
     while world.generating:
         world.wave_function_collapse()

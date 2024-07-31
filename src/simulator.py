@@ -1,5 +1,6 @@
 import os
 from typing import List, Tuple
+from src.world.tile import Tile
 from src.world.world import World
 from src.world.spritemap import Spritemap
 from src.world.data.sprites import SPRITES
@@ -36,7 +37,7 @@ class Simulator():
                 else:
                     self.spritemap.add_sprite(y, x, f" {self.world.tilemap[y][x].entropy}")
         print(self.spritemap)
-    
+
     def _update_alive_players(self):
         alive_playes = []
         for p in self.players:
@@ -50,6 +51,13 @@ class Simulator():
                 if p1.sprite != p2.sprite and p1.position == p2.position:
                     p1.damage(p2.attack)
                     p2.damage(p1.attack)
+    
+    def _get_available_movement_tiles(self, y: int, x: int) -> List[Tile]:
+        available_movement_tiles = []
+        for t in self.world.tilemap[y][x].neighbours.values():
+            available_movement_tiles.append(t)
+        available_movement_tiles.append(self.world.tilemap[y][x])
+        return available_movement_tiles
 
     def simulate(self) -> None:
         self._print_state()
@@ -63,8 +71,10 @@ class Simulator():
         
         while True:
             for p in self.players:
-                p.move(self.world.tilemap[p.y][p.x].neighbours.values())
+                p.move(self._get_available_movement_tiles(p.y, p.x))
+                p.gain_experience(self.world.tilemap[p.y][p.x].points)
                 p.damage(1)
+            self._update_alive_players()
             self._battle()
             self._update_alive_players()
             self._print_state()
