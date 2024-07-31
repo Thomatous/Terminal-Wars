@@ -1,6 +1,5 @@
 from typing import Tuple, List
 from random import randint, shuffle
-from copy import deepcopy
 from abc import abstractmethod
 from src.world.world import World
 from src.world.tile import Tile
@@ -12,10 +11,11 @@ class BasePlayer():
     y: int
     x: int
 
-    def __init__(self, attack: int = 10, health: int = 100, movement: int = 1,) -> None:
+    def __init__(self, attack: int = 10, health: int = 100, movement: int = 1, sprite: str = "PP") -> None:
         self.attack = attack
         self.health = health
         self.movement = movement
+        self.sprite = sprite
     
     @property
     def position(self) -> Tuple[int, int]:

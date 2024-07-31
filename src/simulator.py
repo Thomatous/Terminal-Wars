@@ -25,6 +25,13 @@ class Simulator():
                     row += f" {self.world.tilemap[y][x].entropy}"
             map += row + '\n'
         print(map)
+    
+    def _update_alive_players(self):
+        alive_playes = []
+        for p in self.players:
+            if p.health > 0:
+                alive_playes.append(p)
+        self.players = alive_playes
 
     def simulate(self) -> None:
         for p in self.players:
@@ -32,6 +39,8 @@ class Simulator():
         while True:
             for p in self.players:
                 p.move(self.world.tilemap[p.y][p.x].neighbours.values())
+                p.damage(1)
+            self._update_alive_players()
             os.system('cls' if os.name == 'nt' else 'clear')
             self._print_state()
             input("Press Enter to continue...")
