@@ -78,7 +78,10 @@ class Simulator():
             self.players.append(new_player)
 
     def simulate(self) -> None:
-        self._print_state()
+        while self.world.generating:
+            self.world.wave_function_collapse()
+            self._print_state()
+        print("Generated world!")
         input("Press Enter to continue...")
 
         for p in self.players:
@@ -95,7 +98,7 @@ class Simulator():
                     p.gain_experience(self.world.tilemap[p.y][p.x].points)
                 except Mitosis:
                     mitosized_players.append(p)    
-                # p.damage(1)
+                p.damage(1)
             self._duplicate_players(mitosized_players)
             self._update_alive_players()
             self._print_state()
