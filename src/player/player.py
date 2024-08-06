@@ -93,7 +93,7 @@ class Player():
     def _level_up(self) -> NameError:
         self.level += 1
         a, h, m = self._get_modified_stats()
-        evolution = self.evolve(a, h, m, self.level)
+        evolution = self.evolve(self.history, self.level)
         self._apply_evolution(evolution)
 
 
