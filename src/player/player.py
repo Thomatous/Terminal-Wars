@@ -17,6 +17,7 @@ class Player():
     level: int
     level_threshold: int
     experience: int
+    history: List[Evolution]
 
     def __init__(self,
                  name: str = "Player",
@@ -34,6 +35,7 @@ class Player():
         self.level = 1
         self.level_threshold = level_threshold
         self.experience = 0
+        self.history = []
     
     @property
     def position(self) -> Tuple[int, int]:
@@ -58,12 +60,12 @@ class Player():
             self.x = moveable_tiles[0].x
     
     @abstractmethod
-    def evolve(self, curr_attack: int, curr_health: int, curr_movement: int, level: int) -> Evolution:
+    def evolve(self, evolution_history: List[Evolution], level: int) -> Evolution:
         """
         Return one of the following evolutions:
         Evolution.ATTACK:   Increases your attack
         Evolution.HEALTH:   Increases your health
-        Evolution.MOVEMENT: Incereases your movement
+        Evolution.MOVEMENT: Increases your movement
         Evolution.MITOSIS:  Splits your creature into two creatures with halved stats
         """
         raise NotImplementedError("Base players can't evolve.")
@@ -75,6 +77,7 @@ class Player():
         return (self.attack // 10, self.health // 10, self.movement)
     
     def _apply_evolution(self, evolution: Evolution) -> None:
+        self.history.append(evolution)
         if evolution == Evolution.ATTACK:
             self.attack += 15
         elif evolution == Evolution.HEALTH:
