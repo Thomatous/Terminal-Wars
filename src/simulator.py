@@ -1,11 +1,11 @@
 import os
 from copy import deepcopy
-from typing import List, Tuple
+from typing import List
 from src.world.tile import Tile
 from src.world.world import World
 from src.world.spritemap import Spritemap
 from src.world.data.sprites import SPRITES
-from src.player.base_player import Player
+from src.player.player import Player
 from src.player.mitosis import Mitosis
 
 class Simulator():

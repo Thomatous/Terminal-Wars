@@ -1,6 +1,6 @@
 from random import randint
 from src.player.enum.evolution import Evolution
-from src.player.base_player import Player
+from src.player.player import Player
 
 class RandomPlayer(Player):
     def evolve(self, curr_attack: int, curr_health: int, curr_movement: int, level: int) -> Evolution:
