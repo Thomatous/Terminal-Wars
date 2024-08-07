@@ -18,6 +18,11 @@ class Simulator():
         self.players = players
         self.spritemap = Spritemap(world.cols, world.rows)
     
+    @property
+    def teams(self):
+        sprites = [p.sprite for p in self.players]
+        return set(sprites)
+    
     def _find_players_by_position(self, y: int, x: int) -> List[Player]:
         players_in_position = []
         for p in self.players:
@@ -90,7 +95,7 @@ class Simulator():
         print("Spawned players!")
         input("Press Enter to continue...")
         
-        while True:
+        while len(self.teams) > 1:
             mitosized_players = []
             for p in self.players:
                 p.move(self._get_available_movement_tiles(p.y, p.x))
@@ -108,4 +113,5 @@ class Simulator():
             self._update_alive_players()
             self._print_state()
             command = input("Press Enter to continue...")
-
+        
+        print("WINNER:", list(self.teams)[0])
