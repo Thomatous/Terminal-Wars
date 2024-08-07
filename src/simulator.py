@@ -85,6 +85,8 @@ class Simulator():
             new_player.level = 1
             new_player.experience = 0
             self.players.append(new_player)
+            playsound("/home/thpapa/Projects/Terminal-Wars/assets/sfx/mitosis.mp3", block=False)
+
 
     def simulate(self) -> None:
         while self.world.generating:
