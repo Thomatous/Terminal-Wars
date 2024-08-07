@@ -1,6 +1,8 @@
 import os
-from copy import deepcopy
+import time
 from typing import List
+from copy import deepcopy
+from playsound import playsound
 from src.world.tile import Tile
 from src.world.world import World
 from src.world.spritemap import Spritemap
@@ -38,13 +40,14 @@ class Simulator():
             return False
         return True
 
-    def _print_state(self) -> None:
+    def _print_state(self, sleep: int = 0) -> None:
         os.system('cls' if os.name == 'nt' else 'clear')
         for y in range(self.world.rows):
             for x in range(self.world.cols):
                 players_on_tile = self._find_players_by_position(y, x)
                 if self._battle_on_tile(players_on_tile):
                     self.spritemap.add_sprite(y, x, "⚔⚔")
+                    playsound("/home/thpapa/Projects/Terminal-Wars/assets/sfx/battle.mp3", block=False)
                 elif len(players_on_tile) >= 1:
                     self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
                 elif self.world.tilemap[y][x].entropy == 0:
@@ -53,6 +56,7 @@ class Simulator():
                     self.spritemap.add_sprite(y, x, f" {self.world.tilemap[y][x].entropy}")
         print(self.spritemap)
         print(f"Players: {len(self.players)}")
+        time.sleep(sleep)
 
     def _update_alive_players(self):
         alive_playes = []
@@ -95,6 +99,7 @@ class Simulator():
         print("Spawned players!")
         input("Press Enter to continue...")
         
+        # playsound('/home/thpapa/Projects/Terminal-Wars/assets/soundtracks/world.mp3', block=False)
         while len(self.teams) > 1:
             mitosized_players = []
             for p in self.players:
@@ -106,12 +111,13 @@ class Simulator():
                 p.damage(1)
             self._duplicate_players(mitosized_players)
             self._update_alive_players()
-            self._print_state()
-            command = input("Press Enter to continue...")
+            self._print_state(0.1)
+
+            # command = input("Press Enter to continue...")
 
             self._battle()
             self._update_alive_players()
-            self._print_state()
-            command = input("Press Enter to continue...")
+            self._print_state(0.1)
+            # command = input("Press Enter to continue...")
         
         print("WINNER:", list(self.teams)[0])
