@@ -148,7 +148,9 @@ class Simulator():
         for p in players:
             new_player = deepcopy(p)
             new_player.level = 1
-            new_player.experience = 0
+            new_player.experience = 0 
+            new_player.level_threshold = 100
+            new_player.history = []
             self.players.append(new_player)
             playsound("/home/thpapa/Projects/Terminal-Wars/assets/sfx/mitosis.mp3", block=False)
 
@@ -175,15 +177,15 @@ class Simulator():
                     p.gain_experience(self.world.tilemap[p.y][p.x].points)
                 except Mitosis:
                     mitosized_players.append(p)    
-                p.damage(1)
+                # p.damage(1)
             self._duplicate_players(mitosized_players)
             self._update_alive_players()
-            self._print_state(0.1)
+            self._print_state(0.3)
             # command = input("Press Enter to continue...")
 
             self._battle()
             self._update_alive_players()
-            self._print_state(0.1)
+            self._print_state(0.3)
             # command = input("Press Enter to continue...")
         
         if len(list(self.teams)) > 0:
