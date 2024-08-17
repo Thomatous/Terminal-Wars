@@ -1,13 +1,13 @@
-### Version 0.0.1
+### Version 0.0.2
 
 # Terminal Wars
 
 ### Overview 
 This repository contains a python implementation of the [Wave Function Collapse](https://github.com/mxgmn/WaveFunctionCollapse) algorithm in [Python](https://www.python.org/) with the tile implementation presented on [this video](https://www.youtube.com/watch?v=qRtrj6Pua2A).  
 
-This mini project can best be described as a simplistic terminal based battle simulator. Where the battling entities are inherited instances of the included `base_player.py` containing an implementation of the evolution function:
+This mini project can best be described as a simplistic terminal based battle simulator. Where the battling entities are inherited instances of the included `player.py` containing an implementation of the evolution function:
 ```Python
-def evolve(self, curr_attack: int, curr_health: int, curr_movement: int, level: int) -> Evolution:
+def evolve(self, evolution_history: List[Evolution], level: int) -> Evolution:
         """
         Return one of the following evolutions:
         Evolution.ATTACK:   Increases your attack
@@ -17,6 +17,9 @@ def evolve(self, curr_attack: int, curr_health: int, curr_movement: int, level: 
         """
         pass
 ```
+
+![](documentation/readme_demo.gif)
+
 ### Requirements
 1. Make sure you have python3 installed in your system
 2. Install the dependencies using: `pip install -r requirements.txt`
