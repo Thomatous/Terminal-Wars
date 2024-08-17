@@ -1,4 +1,4 @@
-### Version 0.0.1
+### Version 0.0.2
 
 # Terminal Wars
 
@@ -17,6 +17,9 @@ def evolve(self, evolution_history: List[Evolution], level: int) -> Evolution:
         """
         pass
 ```
+
+![](documentation/readme_demo.gif)
+
 ### Requirements
 1. Make sure you have python3 installed in your system
 2. Install the dependencies using: `pip install -r requirements.txt`
