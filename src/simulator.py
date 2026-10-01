@@ -2,7 +2,6 @@ import os
 import time
 from typing import List
 from copy import deepcopy
-from playsound import playsound
 from src.world.tile import Tile
 from src.world.world import World
 from src.world.spritemap import Spritemap
@@ -99,7 +98,6 @@ class Simulator():
                 players_on_tile = self._find_players_by_position(y, x)
                 if self._battle_on_tile(players_on_tile):
                     self.spritemap.add_sprite(y, x, "⚔⚔")
-                    playsound("/home/thpapa/Projects/Terminal-Wars/assets/sfx/battle.mp3", block=False)
                 elif len(players_on_tile) >= 1:
                     self.spritemap.add_sprite(y, x, players_on_tile[0].sprite)
                 elif self.world.tilemap[y][x].entropy == 0:
@@ -152,7 +150,6 @@ class Simulator():
             new_player.level_threshold = 100
             new_player.history = []
             self.players.append(new_player)
-            playsound("/home/thpapa/Projects/Terminal-Wars/assets/sfx/mitosis.mp3", block=False)
 
 
     def simulate(self) -> None:
@@ -168,7 +165,6 @@ class Simulator():
         print("Spawned players!")
         input("Press Enter to continue...")
         
-        # playsound('/home/thpapa/Projects/Terminal-Wars/assets/soundtracks/world.mp3', block=False)
         while len(self.teams) > 1:
             mitosized_players = []
             for p in self.players:
